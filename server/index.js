@@ -1,6 +1,6 @@
 const keys = require('./keys');
 
-//Express App Setup
+// Express App Setup
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -18,12 +18,14 @@ const pgClient = new Pool({
   password: keys.pgPassword,
   port: keys.pgPort
 });
+
 pgClient.on('connect', client => {
   client
     .query('CREATE TABLE IF NOT EXISTS values (number INT)')
     .catch(err => console.error(err));
 });
 
+// Redis Client Setup
 const redis = require('redis');
 const redisClient = redis.createClient({
   host: keys.redisHost,
@@ -51,7 +53,7 @@ app.get('/values/current', async (req, res) => {
 });
 
 app.post('/values', async (req, res) => {
-  const index = req.body.value;
+  const index = req.body.index;
 
   if (parseInt(index) > 40) {
     return res.status(422).send('Index too high');
