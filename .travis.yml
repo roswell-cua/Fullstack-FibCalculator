@@ -6,7 +6,7 @@ before_install:
   - docker build -t rcua93/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run rcua93/react-test npm test -- --coverage
+  - docker run -e CI=true rcua93/react-text npm test
 
 after_success:
   - docker build -t rcua93/multi-client ./client
